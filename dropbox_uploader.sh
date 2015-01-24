@@ -1045,68 +1045,73 @@ function db_share
 ################
 
 #CHECKING FOR AUTH FILE
-if [[ -e $CONFIG_FILE ]]; then
+#if [[ -e $CONFIG_FILE ]]; then
 
     #Loading data... and change old format config if necesary.
-    source "$CONFIG_FILE" 2>/dev/null || {
-        sed -i'' 's/:/=/' "$CONFIG_FILE" && source "$CONFIG_FILE" 2>/dev/null
-    }
+#    source "$CONFIG_FILE" 2>/dev/null || {
+#        sed -i'' 's/:/=/' "$CONFIG_FILE" && source "$CONFIG_FILE" 2>/dev/null
+#    }
 
     #Checking the loaded data
-    if [[ $APPKEY == "" || $APPSECRET == "" || $OAUTH_ACCESS_TOKEN_SECRET == "" || $OAUTH_ACCESS_TOKEN == "" ]]; then
-        echo -ne "Error loading data from $CONFIG_FILE...\n"
-        echo -ne "It is recommended to run $0 unlink\n"
-        remove_temp_files
-        exit 1
-    fi
+#    if [[ $APPKEY == "" || $APPSECRET == "" || $OAUTH_ACCESS_TOKEN_SECRET == "" || $OAUTH_ACCESS_TOKEN == "" ]]; then
+#        echo -ne "Error loading data from $CONFIG_FILE...\n"
+#        echo -ne "It is recommended to run $0 unlink\n"
+#        remove_temp_files
+#        exit 1
+#    fi
 
     #Back compatibility with previous Dropbox Uploader versions
-    if [[ $ACCESS_LEVEL == "" ]]; then
-        ACCESS_LEVEL="dropbox"
-    fi
+#    if [[ $ACCESS_LEVEL == "" ]]; then
+ #       ACCESS_LEVEL="dropbox"
+#    fi
 
 #NEW SETUP...
-else
+#else
 
-    echo -ne "\n This is the first time you run this script.\n\n"
-    echo -ne " 1) Open the following URL in your Browser, and log in using your account: $APP_CREATE_URL\n"
-    echo -ne " 2) Click on \"Create App\", then select \"Dropbox API app\"\n"
-    echo -ne " 3) Select \"Files and datastores\"\n"
-    echo -ne " 4) Now go on with the configuration, choosing the app permissions and access restrictions to your DropBox folder\n"
-    echo -ne " 5) Enter the \"App Name\" that you prefer (e.g. MyUploader$RANDOM$RANDOM$RANDOM)\n\n"
+#    echo -ne "\n This is the first time you run this script.\n\n"
+#    echo -ne " 1) Open the following URL in your Browser, and log in using your account: $APP_CREATE_URL\n"
+#    echo -ne " 2) Click on \"Create App\", then select \"Dropbox API app\"\n"
+#    echo -ne " 3) Select \"Files and datastores\"\n"
+#    echo -ne " 4) Now go on with the configuration, choosing the app permissions and access restrictions to your DropBox folder\n"
+#    echo -ne " 5) Enter the \"App Name\" that you prefer (e.g. MyUploader$RANDOM$RANDOM$RANDOM)\n\n"#
 
-    echo -ne " Now, click on the \"Create App\" button.\n\n"
+#    echo -ne " Now, click on the \"Create App\" button.\n\n"
 
-    echo -ne " When your new App is successfully created, please type the\n"
-    echo -ne " App Key, App Secret and the Permission type shown in the confirmation page:\n\n"
+#    echo -ne " When your new App is successfully created, please type the\n"
+#    echo -ne " App Key, App Secret and the Permission type shown in the confirmation page:\n\n"
 
     #Getting the app key and secret from the user
-    while (true); do
+#    while (true); do
 
-        echo -n " # App key: "
-        read APPKEY
+#        echo -n " # App key: "
+#        read APPKEY
 
-        echo -n " # App secret: "
-        read APPSECRET
+#        echo -n " # App secret: "
+#        read APPSECRET
 
-        echo -n " # Permission type, App folder or Full Dropbox [a/f]: "
-        read ACCESS_LEVEL
+#        echo -n " # Permission type, App folder or Full Dropbox [a/f]: "
+#        read ACCESS_LEVEL
 
-        if [[ $ACCESS_LEVEL == "a" ]]; then
-            ACCESS_LEVEL="sandbox"
-            ACCESS_MSG="App Folder"
-        else
-            ACCESS_LEVEL="dropbox"
-            ACCESS_MSG="Full Dropbox"
-        fi
+#        if [[ $ACCESS_LEVEL == "a" ]]; then
+#            ACCESS_LEVEL="sandbox"
+#            ACCESS_MSG="App Folder"
+#        else
+#            ACCESS_LEVEL="dropbox"
+#            ACCESS_MSG="Full Dropbox"
+#        fi
 
-        echo -ne "\n > App key is $APPKEY, App secret is $APPSECRET and Access level is $ACCESS_MSG. Looks ok? [y/n]: "
-        read answer
-        if [[ $answer == "y" ]]; then
-            break;
-        fi
+#        echo -ne "\n > App key is $APPKEY, App secret is $APPSECRET and Access level is $ACCESS_MSG. Looks ok? [y/n]: "
+#        read answer
+#        if [[ $answer == "y" ]]; then
+#            break;
+#        fi
 
-    done
+#    done
+
+    APPKEY = ${DB_APP_KEY}
+    APPSECRET = ${DB_APP_SECRET}
+    ACCESS_LEVEL="sandbox"
+    ACCESS_MSG="App Folder"
 
     #TOKEN REQUESTS
     echo -ne "\n > Token request... "
@@ -1143,11 +1148,11 @@ else
             echo -ne "OK\n"
 
             #Saving data in new format, compatible with source command.
-            echo "APPKEY=$APPKEY" > "$CONFIG_FILE"
-            echo "APPSECRET=$APPSECRET" >> "$CONFIG_FILE"
-            echo "ACCESS_LEVEL=$ACCESS_LEVEL" >> "$CONFIG_FILE"
-            echo "OAUTH_ACCESS_TOKEN=$OAUTH_ACCESS_TOKEN" >> "$CONFIG_FILE"
-            echo "OAUTH_ACCESS_TOKEN_SECRET=$OAUTH_ACCESS_TOKEN_SECRET" >> "$CONFIG_FILE"
+#            echo "APPKEY=$APPKEY" > "$CONFIG_FILE"
+#            echo "APPSECRET=$APPSECRET" >> "$CONFIG_FILE"
+#            echo "ACCESS_LEVEL=$ACCESS_LEVEL" >> "$CONFIG_FILE"
+#            echo "OAUTH_ACCESS_TOKEN=$OAUTH_ACCESS_TOKEN" >> "$CONFIG_FILE"
+#            echo "OAUTH_ACCESS_TOKEN_SECRET=$OAUTH_ACCESS_TOKEN_SECRET" >> "$CONFIG_FILE"
 
             echo -ne "\n Setup completed!\n"
             break
